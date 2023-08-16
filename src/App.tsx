@@ -1,49 +1,51 @@
+import {
+  WalletConnectModal,
+  useWalletConnectModal,
+} from '@walletconnect/modal-react-native';
 import React from 'react';
-import {SafeAreaView, ScrollView} from 'react-native';
-
-export const providerMetadata = {
-  name: 'demo',
-  description: 'demo',
-  url: '',
-  icons: [''],
-  redirect: {
-    native: 'YOUR_APP_SCHEME://',
-    universal: 'YOUR_APP_UNIVERSAL_LINK.com',
-  },
-};
-
-const sessionParams = {
-  namespaces: {
-    eip155: {
-      methods: [
-        'personal_sign',
-        'eth_sendTransaction',
-        'wallet_switchEthereumChain',
-      ],
-      chains: ['eip155:1', 'eip155:137'],
-      events: ['chainChanged', 'accountsChanged'],
-    },
-  },
-};
+import {Button, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {providerMetadata, sessionParams} from './consts';
 
 function App(): JSX.Element {
-  return (
-    <SafeAreaView style={{flexGrow: 1}}>
-      <ScrollView
-        style={{
-          flexGrow: 1,
-          backgroundColor: 'red',
-        }}>
-        {/* TODO add wallet connect issue demo stuff */}
-      </ScrollView>
+  const {provider, open, isConnected} = useWalletConnectModal();
 
-      {/* <WalletConnectModal
-          projectId={'YOUR_PROJECT_ID'}
-          providerMetadata={providerMetadata}
-          sessionParams={sessionParams}
-        /> */}
+  const onPress = () => {
+    if (isConnected) {
+      console.log('disconnecting....');
+      return provider?.disconnect();
+    }
+    return open();
+  };
+
+  return (
+    <SafeAreaView style={styles.wrapper}>
+      <View style={styles.container}>
+        {isConnected && (
+          <Text style={styles.text}>
+            Connected {provider?.session?.peer.metadata.name}
+          </Text>
+        )}
+
+        <Button
+          title={isConnected ? 'Disconnect' : 'Connect Wallet'}
+          onPress={onPress}
+        />
+      </View>
+
+      <WalletConnectModal
+        // TODO replace before publish
+        projectId={'e158f7b0b6d2df664534820eea62e548'}
+        providerMetadata={providerMetadata}
+        sessionParams={sessionParams}
+      />
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  wrapper: {flexGrow: 1, backgroundColor: '#fff'},
+  container: {justifyContent: 'center', flex: 1},
+  text: {alignSelf: 'center'},
+});
 
 export default App;
