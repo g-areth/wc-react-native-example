@@ -34,7 +34,7 @@ function App(): JSX.Element {
 
       <WalletConnectModal
         // TODO replace before publish
-        projectId={'e158f7b0b6d2df664534820eea62e548'}
+        projectId={'PROJECT_ID_HERE'}
         providerMetadata={providerMetadata}
         sessionParams={sessionParams}
       />

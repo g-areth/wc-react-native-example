@@ -13,12 +13,33 @@ export const sessionParams = {
   namespaces: {
     eip155: {
       methods: [
-        'personal_sign',
         'eth_sendTransaction',
-        // 'wallet_switchEthereumChain',
+        'eth_signTransaction',
+        'eth_sign',
+        'personal_sign',
+        'eth_signTypedData',
+        'wallet_addEthereumChain',
+        'wallet_switchEthereumChain',
       ],
-      chains: ['eip155:1', 'eip155:137'],
+      chains: ['eip155:1'],
       events: ['chainChanged', 'accountsChanged'],
+      rpcMap: {},
+    },
+  },
+  optionalNamespaces: {
+    eip155: {
+      methods: [
+        'eth_sendTransaction',
+        'eth_signTransaction',
+        'eth_sign',
+        'personal_sign',
+        'eth_signTypedData',
+        'wallet_addEthereumChain',
+        'wallet_switchEthereumChain',
+      ],
+      chains: ['eip155:137'],
+      events: ['chainChanged', 'accountsChanged'],
+      rpcMap: {},
     },
   },
 };
